@@ -27,13 +27,28 @@ class Assessment
 	end
 
 	def distribute_questions_to_student(questions)
-		distributed_questions = []
-		questions.map do |q|
-			distributed_questions << questions.sample
-			break if distributed_questions.length === @num_questions
+
+		distributed_questions_ids = []
+		strand_1_count = 0
+		strand_2_count = 0
+		until distributed_questions_ids.length === @num_questions
+			if strand_1_count > strand_2_count 
+				q = question.sample
+				q = question.sample if q["strand_id"] != 1
+				distributed_questions_ids << q["question_id"]
+				strand_1_count+=1
+			elsif strand_1_count < strand_2_count
+				q = question.sample
+				q = question.sample if q["strand_id"] != 2
+				distributed_questions_ids << q["question_id"]
+				strand_2_count+=1
+			else
+				distributed_questions_ids << questions.sample["question_id"]
+			end
 		end
-		puts distributed_questions
-		return distributed_questions
+
+		print distributed_questions_ids
+		return distributed_questions_ids
 	end
 
 end
