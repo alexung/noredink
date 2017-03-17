@@ -6,8 +6,7 @@ class Assessment
 	def initialize(num_questions)
 		@num_questions = num_questions.to_i
 		check_num_questions
-		puts retrieve_questions
-
+		retrieve_all_questions
 	end
 
 	def check_num_questions
@@ -17,15 +16,24 @@ class Assessment
 		end
 	end
 
-	def retrieve_questions
-		question_csv = CSV.table('questions.csv', headers: true)
+	def retrieve_all_questions
+		question_csv = CSV.read('questions.csv', headers: true)
 		questions = []
 		question_csv.map do |q|
 			questions << q.to_h
-			break if questions.length === @num_questions
 		end
+		distribute_questions_to_student(questions)
 		return questions
 	end
 
+	def distribute_questions_to_student(questions)
+		distributed_questions = []
+		questions.map do |q|
+			distributed_questions << questions.sample
+			break if distributed_questions.length === @num_questions
+		end
+		puts distributed_questions
+		return distributed_questions
+	end
 
 end
