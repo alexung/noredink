@@ -1,9 +1,11 @@
-puts 'You are about to enter the most fulfilling challenge of your life'
+require_relative 'assessment/assessment'
 
-puts 'Who are you? '
-name = gets
+# puts 'You are about to enter the most fulfilling challenge of your life'
 
-puts "Get ready to be quizzified, #{name} - How many questions are you up for?: "
+# puts 'Who are you? '
+# name = gets
+
+puts "Get ready to be quizzified - How many questions are you up for?: "
 num_questions = gets
 
 Assessment.new(num_questions)
